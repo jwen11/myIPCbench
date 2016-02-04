@@ -30,7 +30,7 @@ int main(void)
 	double latency [ITER];
 	double latency_sort [ITER];
 	double maxLat, sum, avgLat;
-	struct timespec tstart, tend;
+	struct timeval tstart, tend;
 	FILE *fp;
 
 #ifdef LOG	
@@ -70,7 +70,7 @@ int main(void)
 	maxLat = sum = avgLat = 0.0;
 	for (i = 0; i <ITER; ++i) {
 
-		clock_gettime (CLOCK_MONOTONIC, &tstart);
+		gettimeofday (&tstart, NULL);
         if (msgsnd(msgidB, &bufB, MSGSIZE, 0) == -1) 
             perror("msgsnd");
 
@@ -79,9 +79,9 @@ int main(void)
             exit(1);
         }
         
-		clock_gettime (CLOCK_MONOTONIC, &tend);
+		gettimeofday (&tend, NULL);
 
-		latency[i] =  ((double)tend.tv_sec * 1.0e9 + tend.tv_nsec) -((double)tstart.tv_sec * 1.0e9 +tstart.tv_nsec);
+		latency[i] =  ((double)tend.tv_sec * 1.0e6 + tend.tv_usec) -((double)tstart.tv_sec * 1.0e6 +tstart.tv_usec);
 		latency_sort[i] = latency[i]; 
 		if (latency[i] > maxLat) maxLat = latency[i];
 		sum += latency[i];

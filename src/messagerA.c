@@ -17,7 +17,7 @@ int main(void)
 	
 	int i;	
 
-	struct timespec tstart, tend;	
+	struct timeval tstart, tend;	
 
     if ((keyA = ftok(MYPATH, 'A')) == -1) {
         perror("ftok");
@@ -43,10 +43,8 @@ int main(void)
 	bufA.mtext[MSGSIZE-1] = '\0';
 
 	
-	clock_getres (CLOCK_MONOTONIC, &tstart);
-	printf("The clock resolution is %ld second, %ld nano second\n", tstart.tv_sec, tstart.tv_nsec);
 
-	clock_gettime (CLOCK_MONOTONIC, &tstart);
+	gettimeofday (&tstart, NULL);
 	for (i = 0; i <ITER; ++i) {
 
 		if (msgrcv(msgidB, &bufB, sizeof bufB.mtext, 0, 0) == -1) {
@@ -57,11 +55,11 @@ int main(void)
             perror("msgsnd");
         
     }
-	clock_gettime(CLOCK_MONOTONIC, &tend);
+	gettimeofday(&tend, NULL);
 	
 	printf("The communication took about %.9f seconds\n",
-           ((double)tend.tv_sec + 1.0e-9*tend.tv_nsec) - 
-           ((double)tstart.tv_sec + 1.0e-9*tstart.tv_nsec));
+           ((double)tend.tv_sec + 1.0e-6*tend.tv_usec) - 
+           ((double)tstart.tv_sec + 1.0e-6*tstart.tv_usec));
 		
 
     if (msgctl(msgidA, IPC_RMID, NULL) == -1) {
