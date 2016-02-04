@@ -1,8 +1,8 @@
 #ifndef _MESSAGE_H_
 #define _MESSAGE_H_
 
-#define MSGSIZE (128)
-#define ITER	(1024*2*100)
+#define MSGSIZE (1)
+#define ITER	(1024*2*50)
 #define MYPATH	"./Makefile"
 
 struct my_msgbuf {

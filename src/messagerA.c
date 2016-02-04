@@ -9,15 +9,16 @@
 #include "../include/message.h"
 
 
-int main(void)
+int main(int argc, char** argv)
 {
     struct my_msgbuf bufA, bufB;
     int msgidA, msgidB;
     key_t keyA, keyB;
 	
 	int i;	
-
 	struct timeval tstart, tend;	
+
+
 
     if ((keyA = ftok(MYPATH, 'A')) == -1) {
         perror("ftok");
@@ -36,7 +37,6 @@ int main(void)
         perror("msgget keyB");
         exit(1);
     }
-    
 
     bufA.mtype = 1; /* we don't really care in this case */
 	memset(bufA.mtext, '0', MSGSIZE-1);

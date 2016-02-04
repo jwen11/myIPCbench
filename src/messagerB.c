@@ -16,7 +16,7 @@ int comp (const void* a ,const void* b){
 }
 
 
-int main(void)
+int main(int argc, char** argv)
 {
     struct my_msgbuf bufA, bufB;
     int msgidA, msgidB;
@@ -32,6 +32,7 @@ int main(void)
 	double maxLat, sum, avgLat;
 	struct timeval tstart, tend;
 	FILE *fp;
+
 
 #ifdef LOG	
 	buff[0] ='\0';
