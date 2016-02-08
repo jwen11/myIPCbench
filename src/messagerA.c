@@ -6,6 +6,7 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <time.h>
+#include <unistd.h>
 #include "../include/message.h"
 
 
@@ -18,9 +19,18 @@ int main(int argc, char** argv)
 	int i;	
 	struct timeval tstart, tend;	
 
+	int qoffset;
+
+	if (argc == 2){
+		qoffset = atoi(argv[1]);
+	}
+	else{
+		qoffset = 0;
+	}
+	printf("Queeue offset is %d\n", qoffset);
 
 
-    if ((keyA = ftok(MYPATH, 'A')) == -1) {
+    if ((keyA = ftok(MYPATH, 'A'+ qoffset)) == -1) {
         perror("ftok");
         exit(1);
     }
@@ -29,7 +39,7 @@ int main(int argc, char** argv)
         exit(1);
     }
 
-    if ((keyB = ftok(MYPATH, 'B')) == -1) {
+    if ((keyB = ftok(MYPATH, 'B'+ qoffset)) == -1) {
         perror("ftok");
         exit(1);
     }

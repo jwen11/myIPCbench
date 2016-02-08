@@ -6,6 +6,7 @@
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <time.h>
+#include <unistd.h>
 #include "../include/message.h"
 
 
@@ -33,6 +34,14 @@ int main(int argc, char** argv)
 	struct timeval tstart, tend;
 	FILE *fp;
 
+	int qoffset;
+	if (argc == 2){
+		qoffset = atoi(argv[1]);
+	}
+	else{
+		qoffset = 0;
+	}
+	printf("Queeue offset is %d, (%5d)\n", qoffset,getpid());
 
 #ifdef LOG	
 	buff[0] ='\0';
@@ -41,11 +50,13 @@ int main(int argc, char** argv)
 	now = time(0);
 	strftime(tmp,100,"%Y-%m-%d_%H%M%S",localtime(&now));
 	strcat(buff, tmp);
+	sprintf(tmp, "%05d", getpid());
+	strcat(buff,tmp);
 	strcat(buff,".log");
 	printf("%s\n",buff);
 	fp = fopen (buff, "w");	
 #endif
-    if ((keyA = ftok(MYPATH, 'A')) == -1) {
+    if ((keyA = ftok(MYPATH, 'A'+ qoffset)) == -1) {
         perror("ftok");
         exit(1);
     }
@@ -54,7 +65,7 @@ int main(int argc, char** argv)
         exit(1);
     }
 
-    if ((keyB = ftok(MYPATH, 'B')) == -1) {
+    if ((keyB = ftok(MYPATH, 'B'+ qoffset)) == -1) {
         perror("ftok");
         exit(1);
     }
@@ -92,7 +103,7 @@ int main(int argc, char** argv)
 
 		qsort(latency_sort, ITER, sizeof(double), comp);
 
-	printf("Overall %d iterations:\n", ITER);
+	printf("Overall %d iterations: (%5d)\n", ITER,getpid());
 	printf("The    max latency is %d\n", (int)maxLat);
 	printf("The    avgLat latency is %d\n", (int)avgLat);
 	printf("The median latency is %d\n", (int)(latency_sort[ITER/2]));
