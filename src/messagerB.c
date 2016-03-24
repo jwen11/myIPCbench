@@ -107,12 +107,14 @@ int main(int argc, char** argv)
 	printf("The    max latency is %d\n", (int)maxLat);
 	printf("The    avgLat latency is %d\n", (int)avgLat);
 	printf("The median latency is %d\n", (int)(latency_sort[ITER/2]));
+	printf("The 99th percentile latency is %d\n", (int)(latency_sort[(ITER- ITER/100)]));
 		
 #ifdef LOG	
 	fprintf(fp,"Overall %d iterations:\n", ITER);
 	fprintf(fp,"The    max latency is %d\n", (int)maxLat);
 	fprintf(fp,"The    avgLat latency is %d\n", (int)avgLat);
 	fprintf(fp,"The median latency is %d\n", (int)(latency_sort[ITER/2]));
+	fprintf(fp,"The 99h percentile latency is %d\n", (int)(latency_sort[(ITER- ITER/100)]));
 	for (i = 0; i <ITER; ++i) {
 		fprintf(fp,"%5d:    %10d\n",i,(int)latency[i]);
 	}

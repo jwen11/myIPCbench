@@ -14,11 +14,13 @@ endif
 
 BINFILE1 = messagerA
 BINFILE2 = messagerB
+BINFILE3 = dummy
 
-all: A B
+all: A B C
 
 A: $(BINFILE1)
 B: $(BINFILE2)
+C: $(BINFILE3)
 
 _DEPS = message.h 
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
@@ -28,6 +30,9 @@ OBJ1 = $(patsubst %,$(ODIR)/%,$(_OBJ1))
 
 _OBJ2 = messagerB.o
 OBJ2 = $(patsubst %,$(ODIR)/%,$(_OBJ2))
+
+_OBJ3 = dummy.o
+OBJ3 = $(patsubst %,$(ODIR)/%,$(_OBJ3))
 
     
 $(ODIR)/%.o : $(SDIR)/%.c $(DEPS)
@@ -39,7 +44,10 @@ $(BINFILE1): $(OBJ1)
 $(BINFILE2): $(OBJ2) 
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
+$(BINFILE3): $(OBJ3) 
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
 .PHONY: clean all
 
 clean:
-	rm -f $(ODIR)/*.o *~ $(BINFILE1) $(BINFILE2) 
+	rm -f $(ODIR)/*.o *~ $(BINFILE1) $(BINFILE2) $(BINFILE3) 
