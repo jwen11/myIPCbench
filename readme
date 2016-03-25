@@ -1,0 +1,5 @@
+#in bootargs, isolcpus=3,4,5
+#cat /proc/cmdline
+#top ; 1 
+#mpstat -P ALL 1
+

@@ -1,4 +1,4 @@
 #!/bin/bash
-taskset 4 ./messagerA & 
+taskset -c 3 ./messagerA & 
 
-taskset 6 ./messagerB &
+taskset -c 4 ./messagerB &

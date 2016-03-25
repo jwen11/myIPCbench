@@ -3,19 +3,23 @@
 #include <stdlib.h>
 
 #define CACHE_SIZE (8 *1024 *1024)
-#define NUM	(10)
+#define NUM	(40)
 int main(int argc, char** argv)
 {
-	char* dummy;
+	int* dummy;
 	int i;
-	while (1){
-		dummy = malloc (CACHE_SIZE *NUM);
-		memset (dummy, 0, CACHE_SIZE*NUM);
-		for ( i =0 ; i < NUM * CACHE_SIZE; ++i){
-			dummy[i] = (char)i;
-		}
-		free (dummy);
+	int dst, src;
+	int ramsize = NUM*CACHE_SIZE;
+	dummy = malloc (ramsize *sizeof (int) );
+	for ( i =0 ; i <ramsize; ++i){
+		dummy[i] = i;
 	}
+	while (1){
+		dst = rand() % ramsize;
+		src = rand() % ramsize;
+		dummy[src] = dummy[dst];
+	}
+	free (dummy);
 
     return 0;
 }
