@@ -1,5 +1,29 @@
+
+###HOW TO RUN#######
+
+mkdir log
+##RUN message passing process on core 3,4 and log latency
+source run.bash
+
+##RUN randomn memory access on core N
+taskset -c <N> ./dummy &
+
+
+
+
+
+
+
+
+
+
+
+
+####NOTES########
+
 #in bootargs, isolcpus=3,4,5
 #cat /proc/cmdline
 #top ; 1 
-#mpstat -P ALL 1
+
+
 
